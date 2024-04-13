@@ -4,7 +4,7 @@
 using namespace std;
 
 int n;
-int map[101][101];
+long long int map[101][101];
 long long int dp[101][101];
 
 void init()
@@ -15,11 +15,11 @@ void init()
     dp[n][n] = 0;
     dp[1][1] = map[1][1];
 
-    for (int y = 1; y <= n; y++)
-        dp[y][1] = map[y][1];
+    for (int y = 2; y <= n; y++)
+        dp[y][1] = min(dp[y - 1][1], map[y][1]);
 
-    for (int x = 1; x <= n; x++)
-        dp[1][x] = map[1][x];
+    for (int x = 2; x <= n; x++)
+        dp[1][x] = min(dp[1][x - 1], map[1][x]);
 }
 
 int main() {
