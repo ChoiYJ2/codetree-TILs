@@ -12,6 +12,7 @@ void init()
     for (int i = 1; i <= n; i++)
         fill(dp[i], dp[i] + 100, 200000000000);
 
+    dp[n][n] = 0;
     dp[1][1] = map[1][1];
 
     for (int y = 1; y <= n; y++)
@@ -19,8 +20,6 @@ void init()
 
     for (int x = 1; x <= n; x++)
         dp[1][x] = map[1][x];
-
-    dp[n][n] = 0;
 }
 
 int main() {
