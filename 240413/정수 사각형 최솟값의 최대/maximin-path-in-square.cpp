@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -12,7 +13,6 @@ void init()
     for (int i = 1; i <= n; i++)
         fill(dp[i], dp[i] + 100, 200000000000);
 
-    dp[n][n] = 0;
     dp[1][1] = map[1][1];
 
     for (int y = 2; y <= n; y++)
@@ -36,10 +36,9 @@ int main() {
     {
         for (int x = 2; x <= n; x++)
         {
-            if (y == n && x == n)
-                dp[y][x] = max(dp[y - 1][x], dp[y][x - 1]);
-            else
-                dp[y][x] = min(dp[y - 1][x], dp[y][x - 1]);
+            long long int tmp1 = min(dp[y - 1][x], map[y][x]);
+            long long int tmp2 = min(dp[y][x - 1], map[y][x]);
+            dp[y][x] = max(tmp1, tmp2);
         }
     }
 
