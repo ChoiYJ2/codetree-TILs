@@ -32,7 +32,7 @@ int main()
 	for (int y = 3; y <= n; y++)
 	{
 		for (int x = 2; x <= n; x++)
-			dp[y][x] = max(dp[y - 1][x], dp[y][x - 1]) + map[y][x];
+			dp[y][x] = max(dp[y - 1][x] + map[y][x], dp[y][x - 1] + map[y][x]);
 	}
 
 	cout << dp[n][n];
