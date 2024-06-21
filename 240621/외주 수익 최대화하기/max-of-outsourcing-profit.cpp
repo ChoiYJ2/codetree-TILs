@@ -21,7 +21,8 @@ void dfs(int sum, int passedDay)
 		Outsourcing now = outsourcings[passedDay];
 		if (passedDay + now.duration > n || i != passedDay)
 			dfs(sum, passedDay + 1);
-		dfs(sum + now.revenue, passedDay + now.duration);
+		else
+			dfs(sum + now.revenue, passedDay + now.duration);
 	}
 }
 
