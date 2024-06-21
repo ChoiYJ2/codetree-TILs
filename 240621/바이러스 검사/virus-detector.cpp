@@ -5,7 +5,7 @@ using namespace std;
 int n;
 int restaurantCustomers[1000001];
 int coverage_jang, coverage_won;
-int minInspectors;
+long long int minInspectors;
 
 int main()
 {
