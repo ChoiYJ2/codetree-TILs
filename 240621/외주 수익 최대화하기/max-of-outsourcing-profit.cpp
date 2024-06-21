@@ -19,7 +19,7 @@ void dfs(int sum, int passedDay)
 	for (int i = passedDay; i < n; i++)
 	{
 		Outsourcing now = outsourcings[i];
-		if (passedDay + now.duration > n)
+		if (i + now.duration > n)
 			continue;
 		dfs(sum + now.revenue, i + now.duration);
 	}
