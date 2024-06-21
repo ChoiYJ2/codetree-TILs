@@ -16,10 +16,13 @@ void dfs(int sum, int passedDay)
 	maxRevenue = max(maxRevenue, sum);
 	if (passedDay >= n)
 		return;
-	Outsourcing now = outsourcings[passedDay];
-	if (passedDay + now.duration > n)
-		return;
-	dfs(sum + now.revenue, passedDay + now.duration);
+	for (int i = passedDay; i < n; i++)
+	{
+		Outsourcing now = outsourcings[passedDay];
+		if (passedDay + now.duration > n || i != passedDay)
+			dfs(sum, passedDay + 1);
+		dfs(sum + now.revenue, passedDay + now.duration);
+	}
 }
 
 int main()
