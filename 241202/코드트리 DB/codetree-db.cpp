@@ -26,8 +26,16 @@ int insertData(string name, double value)
 	}
 	else
 	{
-		tableOrderByName.insert({ name, value });
-		tableOrderByValue.insert({ value, name });
+		if (tableOrderByName[name] == 0)
+		{
+			tableOrderByName[name] = value;
+			tableOrderByValue[value] = name;
+		}
+		else
+		{
+			tableOrderByName.insert({ name, value });
+			tableOrderByValue.insert({ value, name });
+		}
 		vectorValue.push_back(value);
 		return 1;
 	}
@@ -67,7 +75,7 @@ string rankData(double k)
 	else
 	{
 		int idx = noneData + k - 1;
-		int value = vectorValue[idx];
+		double value = vectorValue[idx];
 		return tableOrderByValue[value];
 	}
 }
