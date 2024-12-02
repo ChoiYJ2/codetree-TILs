@@ -1,16 +1,20 @@
 #include <iostream>
 #include <map>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 map<string, double> tableOrderByName;
 map<double, string> tableOrderByValue;
+vector<double> vectorValue;
 
 void init()
 {
 	// 테이블 초기화(모든 데이터 삭제)
 	tableOrderByName.clear();
 	tableOrderByValue.clear();
+	vectorValue.clear();
 }
 
 int insertData(string name, double value)
@@ -24,6 +28,7 @@ int insertData(string name, double value)
 	{
 		tableOrderByName.insert({ name, value });
 		tableOrderByValue.insert({ value, name });
+		vectorValue.push_back(value);
 		return 1;
 	}
 }
@@ -45,25 +50,25 @@ double deleteData(string name)
 string rankData(double k)
 {
 	// k번째로 작은 값을 가진 데이터 조회
-	int wholeSize = tableOrderByValue.size();
+	int noneData = 0;
+	for (int i = 0; i < vectorValue.size(); i++)
+	{
+		if (tableOrderByValue[vectorValue[i]] != "")
+			continue;
+		noneData++;
+		vectorValue[i] = 0;
+	}
+
+	sort(vectorValue.begin(), vectorValue.end());
+	int wholeSize = tableOrderByValue.size() - noneData;
+
 	if (wholeSize < k)
 		return "None";
 	else
 	{
-		map<double, string>::iterator target;
-		if (wholeSize / 2 >= k)
-		{
-			target = tableOrderByValue.begin();
-			for (int i = 0; i < k; i++)
-				target++;
-		}
-		else
-		{
-			target = tableOrderByValue.end();
-			for (int i = 0; i < (wholeSize - k + 1); i++)
-				target--;
-		}
-		return target->second;
+		int idx = noneData + k - 1;
+		int value = vectorValue[idx];
+		return tableOrderByValue[value];
 	}
 }
 
@@ -75,6 +80,8 @@ double sumData(double k)
 	map<double, string>::iterator end = tableOrderByValue.end();
 	for (map<double, string>::iterator now = start; now != end; now++)
 	{
+		if (now->second == "")
+			continue;
 		if (now->first > k)
 			break;
 		sum += now->first;
@@ -84,6 +91,9 @@ double sumData(double k)
 
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 	int q;
 	cin >> q;
 	for (int turn = 0; turn < q; turn++)
