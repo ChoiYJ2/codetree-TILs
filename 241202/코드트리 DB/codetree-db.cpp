@@ -61,6 +61,11 @@ string rankData(double k)
 	int noneData = 0;
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
+		if (vectorValue[i] == 0)
+		{
+			noneData++;
+			continue;
+		}
 		if (tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		noneData++;
