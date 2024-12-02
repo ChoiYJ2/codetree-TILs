@@ -44,7 +44,7 @@ int insertData(string name, double value)
 double deleteData(string name)
 {
 	// 데이터 삭제
-	if (tableOrderByName.count(name) == 0)
+	if (tableOrderByName.count(name) == 0 || (tableOrderByName.count(name) != 0 && tableOrderByName[name] == 0))
 		return 0;
 	else
 	{
@@ -61,12 +61,7 @@ string rankData(double k)
 	int noneData = 0;
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0)
-		{
-			noneData++;
-			continue;
-		}
-		if (tableOrderByValue[vectorValue[i]] != "")
+		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		noneData++;
 		vectorValue[i] = 0;
