@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <set>
 #include <vector>
 #include <algorithm>
 
@@ -50,13 +51,17 @@ double deleteData(string name)
 string rankData(double k)
 {
 	int cnt = 0;
+	set<double> values;
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0)
+		if (vectorValue[i] == 0 || values.count(vectorValue[i]) != 0)
 		{
 			cnt++;
+			vectorValue[i] = 0;
 			continue;
 		}
+
+		values.insert(vectorValue[i]);
 		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		cnt++;
