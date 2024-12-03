@@ -1,6 +1,6 @@
 #include <iostream>
 #include <map>
-#include <cstring>
+#include <set>
 #include <vector>
 #include <algorithm>
 
@@ -9,7 +9,6 @@ using namespace std;
 map<string, double> tableOrderByName;
 map<double, string> tableOrderByValue;
 vector<double> vectorValue;
-bool check[1000000000];
 
 void init()
 {
@@ -52,17 +51,17 @@ double deleteData(string name)
 string rankData(double k)
 {
 	int cnt = 0;
-	memset(check, false, sizeof(check));
+	set<double> values;
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0 || check[(int)vectorValue[i]])
+		if (vectorValue[i] == 0 || values.count(vectorValue[i]) != 0)
 		{
 			cnt++;
 			vectorValue[i] = 0;
 			continue;
 		}
 
-		check[(int)vectorValue[i]] = true;
+		values.insert(vectorValue[i]);
 		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		cnt++;
@@ -101,9 +100,9 @@ double sumData(double k)
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
+	/*ios_base::sync_with_stdio(false);
 	cin.tie(0);
-	cout.tie(0);
+	cout.tie(0);*/
 	int q;
 	cin >> q;
 	for (int turn = 0; turn < q; turn++)
