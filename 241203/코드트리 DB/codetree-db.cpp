@@ -1,6 +1,5 @@
 #include <iostream>
 #include <map>
-#include <set>
 #include <vector>
 #include <algorithm>
 
@@ -9,6 +8,7 @@ using namespace std;
 map<string, double> tableOrderByName;
 map<double, string> tableOrderByValue;
 vector<double> vectorValue;
+map<double, int> indexes;
 
 void init()
 {
@@ -28,6 +28,7 @@ int insertData(string name, double value)
 		tableOrderByName[name] = value;
 		tableOrderByValue[value] = name;
 		vectorValue.push_back(value);
+		indexes.insert({ value, vectorValue.size() - 1 });
 		return 1;
 	}
 }
@@ -42,35 +43,27 @@ double deleteData(string name)
 		double value = tableOrderByName[name];
 		tableOrderByName[name] = 0;
 		tableOrderByValue[value] = "";
-		vectorValue.erase(remove(vectorValue.begin(), vectorValue.end(), value), vectorValue.end());
+		int offset = indexes[value];
+		vectorValue.erase(vectorValue.begin() + offset);
 		return value;
 	}
 }
 
 string rankData(double k)
 {
-	int cnt = 0;
+	sort(vectorValue.begin(), vectorValue.end());
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0)
-		{
-			cnt++;
-			continue;
-		}
-		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
-			continue;
-		cnt++;
-		vectorValue[i] = 0;
+		double now = vectorValue[i];
+		indexes[now] = i;
 	}
-
-	sort(vectorValue.begin(), vectorValue.end());
-	int wholesize = vectorValue.size() - cnt;
+	int wholesize = vectorValue.size();
 
 	if (wholesize < k)
 		return "None";
 	else
 	{
-		int idx = cnt + k - 1;
+		int idx = k - 1;
 		double value = vectorValue[idx];
 		return tableOrderByValue[value];
 	}
