@@ -1,6 +1,6 @@
 #include <iostream>
 #include <map>
-#include <set>
+#include <cstring>
 #include <vector>
 #include <algorithm>
 
@@ -9,6 +9,7 @@ using namespace std;
 map<string, double> tableOrderByName;
 map<double, string> tableOrderByValue;
 vector<double> vectorValue;
+bool check[1000000000];
 
 void init()
 {
@@ -51,17 +52,17 @@ double deleteData(string name)
 string rankData(double k)
 {
 	int cnt = 0;
-	set<double> values;
+	memset(check, false, sizeof(check));
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0 || values.count(vectorValue[i]) != 0)
+		if (vectorValue[i] == 0 || check[(int)vectorValue[i]])
 		{
 			cnt++;
 			vectorValue[i] = 0;
 			continue;
 		}
 
-		values.insert(vectorValue[i]);
+		check[(int)vectorValue[i]] = true;
 		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		cnt++;
@@ -80,36 +81,6 @@ string rankData(double k)
 		return tableOrderByValue[value];
 	}
 }
-
-//string rankData(double k)
-//{
-//	// k번째로 작은 값을 가진 데이터 조회
-//	int noneData = 0;
-//	for (int i = 0; i < vectorValue.size(); i++)
-//	{
-//		if (vectorValue[i] == 0)
-//		{
-//			noneData++;
-//			continue;
-//		}
-//		if (tableOrderByValue.count(vectorValue[i]) == 0 || tableOrderByValue[vectorValue[i]] != "")
-//			continue;
-//		noneData++;
-//		vectorValue[i] = 0;
-//	}
-//
-//	sort(vectorValue.begin(), vectorValue.end());
-//	int wholeSize = tableOrderByValue.size() - noneData;
-//
-//	if (wholeSize < k)
-//		return "None";
-//	else
-//	{
-//		int idx = noneData + k - 1;
-//		double value = vectorValue[idx];
-//		return tableOrderByValue[value];
-//	}
-//}
 
 double sumData(double k)
 {
