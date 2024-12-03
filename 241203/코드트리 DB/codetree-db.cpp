@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <set>
 #include <vector>
 #include <algorithm>
 
@@ -21,16 +22,12 @@ int insertData(string name, double value)
 {
 	// 새 데이터 추가
 	if ((tableOrderByName.count(name) != 0 && tableOrderByName[name] != 0) || (tableOrderByValue.count(value) != 0 && tableOrderByValue[value] != ""))
-	{
 		return 0;
-	}
 	else
 	{
-		if(tableOrderByValue.count(value) == 0)
-			vectorValue.push_back(value);
-
 		tableOrderByName[name] = value;
 		tableOrderByValue[value] = name;
+		vectorValue.push_back(value);
 		return 1;
 	}
 }
@@ -45,6 +42,7 @@ double deleteData(string name)
 		double value = tableOrderByName[name];
 		tableOrderByName[name] = 0;
 		tableOrderByValue[value] = "";
+		vectorValue.erase(remove(vectorValue.begin(), vectorValue.end(), value), vectorValue.end());
 		return value;
 	}
 }
@@ -66,9 +64,9 @@ string rankData(double k)
 	}
 
 	sort(vectorValue.begin(), vectorValue.end());
-	int wholeSize = vectorValue.size() - cnt;
+	int wholesize = vectorValue.size() - cnt;
 
-	if (wholeSize < k)
+	if (wholesize < k)
 		return "None";
 	else
 	{
