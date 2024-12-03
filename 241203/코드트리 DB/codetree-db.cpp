@@ -1,6 +1,5 @@
 #include <iostream>
 #include <map>
-#include <set>
 #include <vector>
 #include <algorithm>
 
@@ -27,9 +26,11 @@ int insertData(string name, double value)
 	}
 	else
 	{
+		if(tableOrderByValue.count(value) == 0)
+			vectorValue.push_back(value);
+
 		tableOrderByName[name] = value;
 		tableOrderByValue[value] = name;
-		vectorValue.push_back(value);
 		return 1;
 	}
 }
@@ -51,17 +52,13 @@ double deleteData(string name)
 string rankData(double k)
 {
 	int cnt = 0;
-	set<double> values;
 	for (int i = 0; i < vectorValue.size(); i++)
 	{
-		if (vectorValue[i] == 0 || values.count(vectorValue[i]) != 0)
+		if (vectorValue[i] == 0)
 		{
 			cnt++;
-			vectorValue[i] = 0;
 			continue;
 		}
-
-		values.insert(vectorValue[i]);
 		if (tableOrderByValue.count(vectorValue[i]) != 0 && tableOrderByValue[vectorValue[i]] != "")
 			continue;
 		cnt++;
@@ -100,9 +97,6 @@ double sumData(double k)
 
 int main()
 {
-	/*ios_base::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);*/
 	int q;
 	cin >> q;
 	for (int turn = 0; turn < q; turn++)
