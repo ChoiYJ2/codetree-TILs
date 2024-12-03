@@ -16,6 +16,7 @@ void init()
 	tableOrderByName.clear();
 	tableOrderByValue.clear();
 	vectorValue.clear();
+	indexes.clear();
 }
 
 int insertData(string name, double value)
@@ -33,6 +34,17 @@ int insertData(string name, double value)
 	}
 }
 
+void updateIndex()
+{
+	indexes.clear();
+	for (int i = 0; i < vectorValue.size(); i++)
+	{
+		double now = vectorValue[i];
+		indexes[now] = i;
+	}
+	return;
+}
+
 double deleteData(string name)
 {
 	// 데이터 삭제
@@ -43,8 +55,11 @@ double deleteData(string name)
 		double value = tableOrderByName[name];
 		tableOrderByName[name] = 0;
 		tableOrderByValue[value] = "";
+
+		updateIndex();
 		int offset = indexes[value];
 		vectorValue.erase(vectorValue.begin() + offset);
+		updateIndex();
 		return value;
 	}
 }
@@ -52,11 +67,6 @@ double deleteData(string name)
 string rankData(double k)
 {
 	sort(vectorValue.begin(), vectorValue.end());
-	for (int i = 0; i < vectorValue.size(); i++)
-	{
-		double now = vectorValue[i];
-		indexes[now] = i;
-	}
 	int wholesize = vectorValue.size();
 
 	if (wholesize < k)
@@ -115,7 +125,7 @@ int main()
 		{
 			double k;
 			cin >> k;
-			string res = rankData(k);
+ 			string res = rankData(k);
 			cout << res << "\n";
 		}
 		else if (order == "sum")
